@@ -27,7 +27,7 @@ Util.getNav = async function (req, res, next) {
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
-Util.buildClassificationGrid = async function(data){
+Util.buildClassificationGrid = async function (data) {
     let grid
     if(data.length > 0){
       grid = '<ul id="inv-display">'
@@ -57,4 +57,74 @@ Util.buildClassificationGrid = async function(data){
     return grid
   }
 
+/* **************************************
+* Build the vehicle detail view HTML
+* ************************************ */
+Util.buildVehicleDetail = async function(data) {
+    /*html, image* template strings*/
+    let html //= JSON.stringify(data)
+    if(data.length > 0){
+      html = '<ul id="inv-display">'
+      data.forEach(vehicle => { 
+        html += '<li>'
+        html +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
+        + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
+        + 'details"><img src="' + vehicle.inv_image 
+        +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
+        +' on CSE Motors" /></a>'
+        html += '<div class="namePrice">'
+        html += '<hr />'
+        html += '<h2>'
+        html += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
+        + vehicle.inv_year + ' ' + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
+        + vehicle.inv_year + ' ' + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
+        html += '</h2>'
+        html += '<span>Price: $' 
+        + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+        html += '<br />'
+        html += '<span>Description: ' 
+        + vehicle.inv_description + '</span>'
+        html += '<br />'
+        html += '<span>Color: ' 
+        + vehicle.inv_color + '</span>'
+        html += '<br />'
+        html += '<span>Miles: ' 
+        + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</span>'
+
+        html += '</div>'
+        html += '</li>'
+      })
+      html += '</ul>'
+    } else { 
+      html += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+    }
+    return html
+  }
+
+
+/* **************************************
+* Build the login view HTML
+* ************************************ */
+// Util.buildLoginView = async function(data) {
+//   /*html, image* template strings*/
+//   let login //= JSON.stringify(data)
+//   if(data.length > 0){
+//     login = '<ul id="login-display">'
+//       login += '<li>'
+//       login +=  '<label for="email-reg" class="form-label">Email</label>'
+//       login += '<input type="text" class="form-control" id="email-reg" name="email"> '                       
+//       login += '<label for="password-reg" class="form-label">Password</label>'
+//       login += '<input type="password" class="form-control" id="password-reg" name="password">'
+//       login += '</li>'
+    
+//     login += '</ul>'
+//   } else { 
+//     login += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+//   }
+//   return login
+// }
+
+
 module.exports = Util
+
+
