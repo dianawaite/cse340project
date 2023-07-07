@@ -22,7 +22,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
 /* ***************************
  *  Build detail by inv_id view
  * ************************** */
-invCont.buildByInventoryId = async function (req, res, vehicle) {
+invCont.buildByInventoryId = async function (req, res) {
   const inv_id = req.params.inv_id
   const data = await invModel.getDetailByInventoryId(inv_id)
   // console.log("Data is" + data)
@@ -35,6 +35,10 @@ invCont.buildByInventoryId = async function (req, res, vehicle) {
     nav,
     html,
   })
+}
+
+invCont.buildError = async function (req, res) {
+  throw new Error 
 }
 
 module.exports = invCont

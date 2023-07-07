@@ -7,6 +7,13 @@ const accountController = require("../controllers/accountController")
 // Route to build path for My Account
 router.get("/account/:accountId", accountController.buildByAccountId);
 
+// Route to build login view
+router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
+// Route to build registration view
+router.get("/register", utilities.handleErrors(accountController.buildRegister))
+
+// Route to post registration
+router.post('/register', utilities.handleErrors(accountController.registerAccount))
 
 module.exports = router;

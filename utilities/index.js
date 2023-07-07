@@ -101,28 +101,49 @@ Util.buildVehicleDetail = async function(data) {
     return html
   }
 
+/* **************************************
+* Build the error view HTML
+* ************************************ */
+  Util.buildErrorView = async function (data) {
+    let error 
+    if(data.length > 0){ 
+    error += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+    }
+    return error
+  }
+
 
 /* **************************************
 * Build the login view HTML
 * ************************************ */
-// Util.buildLoginView = async function(data) {
-//   /*html, image* template strings*/
-//   let login //= JSON.stringify(data)
-//   if(data.length > 0){
-//     login = '<ul id="login-display">'
-//       login += '<li>'
-//       login +=  '<label for="email-reg" class="form-label">Email</label>'
-//       login += '<input type="text" class="form-control" id="email-reg" name="email"> '                       
-//       login += '<label for="password-reg" class="form-label">Password</label>'
-//       login += '<input type="password" class="form-control" id="password-reg" name="password">'
-//       login += '</li>'
+Util.buildLoginView = async function(data) {
+  /*html, image* template strings*/
+  let login //= JSON.stringify(data)
+  if(data.length > 0){
+    login = '<ul id="login-display">'
+      login += '<li>'
+      login +=  '<label for="email-reg" class="form-label">Email</label>'
+      login += '<input type="text" class="form-control" id="email-reg" name="email"> '                       
+      login += '<label for="password-reg" class="form-label">Password</label>'
+      login += '<input type="password" class="form-control" id="password-reg" name="password">'
+      login += '</li>'
     
-//     login += '</ul>'
-//   } else { 
-//     login += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
-//   }
-//   return login
-// }
+    login += '</ul>'
+    login += '<button>LOGIN</button>'
+    login += '<p class="notice">No Account? <a href="account/registration">Sign-up</a></p>'
+  } else { 
+    login += '<p class="notice">Sorry, login failed</p>'
+  }
+  return login
+}
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
 
 
 module.exports = Util

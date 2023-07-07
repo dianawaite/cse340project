@@ -15,6 +15,7 @@ const inventoryRoute = require("./routes/inventoryRoute")
 const accountRoute = require("./routes/accountRoute")
 const session = require("express-session")
 const pool = require('./database/')
+const bodyParser = require("body-parser")
 
 
 /* ***********************
@@ -38,6 +39,11 @@ app.use(function(req, res, next){
   next()
 })
 
+//Body Parser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+
 
 
 /* ***********************
@@ -54,15 +60,18 @@ app.set("layout", "./layouts/layout") //not at views root
 app.use(require("./routes/static"))
 
 // Inventory routes
-app.use("/inv", inventoryRoute)
+app.use("/inv", utilities.handleErrors(inventoryRoute))
 
-// Account routes - do I need to change the /inv?
-app.use("/account", accountRoute)
-
+// Account routes
+app.use("/account", require("./routes/accountRoute"))
 
 // Index route
-app.get("/", baseController.buildHome)
+app.get("/", utilities.handleErrors(baseController.buildHome))
 
+// File Not Found Route - must be last route in list
+app.use(async (req, res, next) => {
+  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
+})
 
 /* ***********************
 * Express Error Handler
@@ -71,9 +80,10 @@ app.get("/", baseController.buildHome)
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  if(err.status == 404) { message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
   res.render("errors/error", {
     title: err.status || 'Server Error',
-    message: err.message,
+    message,
     nav
   })
 })
