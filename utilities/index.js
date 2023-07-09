@@ -113,29 +113,7 @@ Util.buildVehicleDetail = async function(data) {
   }
 
 
-/* **************************************
-* Build the login view HTML
-* ************************************ */
-Util.buildLoginView = async function(data) {
-  /*html, image* template strings*/
-  let login //= JSON.stringify(data)
-  if(data.length > 0){
-    login = '<ul id="login-display">'
-      login += '<li>'
-      login +=  '<label for="email-reg" class="form-label">Email</label>'
-      login += '<input type="text" class="form-control" id="email-reg" name="email"> '                       
-      login += '<label for="password-reg" class="form-label">Password</label>'
-      login += '<input type="password" class="form-control" id="password-reg" name="password">'
-      login += '</li>'
-    
-    login += '</ul>'
-    login += '<button>LOGIN</button>'
-    login += '<p class="notice">No Account? <a href="account/registration">Sign-up</a></p>'
-  } else { 
-    login += '<p class="notice">Sorry, login failed</p>'
-  }
-  return login
-}
+
 
 /* ****************************************
  * Middleware For Handling Errors

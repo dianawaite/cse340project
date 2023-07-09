@@ -23,6 +23,7 @@ async function buildRegister(req, res, next) {
   res.render("account/register", {
     title: "Register",
     nav,
+    errors: null,
   })
 }
 
@@ -33,7 +34,7 @@ async function registerAccount(req, res) {
   let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_password } = req.body
 
-  const regResult = await accountModel.registerAccount(
+  const regResult = await acctModel.registerAccount(
     account_firstname,
     account_lastname,
     account_email,
@@ -59,4 +60,4 @@ async function registerAccount(req, res) {
 }
   
   
-  module.exports = { buildLogin, buildByAccountId, buildRegister }
+  module.exports = { buildLogin, buildByAccountId, buildRegister, registerAccount }

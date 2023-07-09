@@ -9,4 +9,24 @@
 <%- messages() %>
 
 <!-- login form -->
-<%- login %>
+ 
+  <form name="login">
+    <table>
+      <tr>
+        <td>Email:</td>
+        <td><input type="email" name="account_email" required></td>
+      </tr>
+      <tr>
+        <td>Password:</td>
+        <td>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</td>
+        <td><input type="password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"></td>
+        </tr>
+        <tr>
+          <td colspan="2"><input type="submit"></td>
+          </tr>
+          <tr>
+            <td colspan="2">No Account? <a href="/account/register">Sign-up</a></td>
+            </tr>
+        </table>
+    </form>
+

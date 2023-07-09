@@ -63,7 +63,7 @@ app.use(require("./routes/static"))
 app.use("/inv", utilities.handleErrors(inventoryRoute))
 
 // Account routes
-app.use("/account", require("./routes/accountRoute"))
+app.use("/account", utilities.handleErrors(require("./routes/accountRoute")))
 
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
