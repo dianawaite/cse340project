@@ -122,7 +122,20 @@ Util.buildVehicleDetail = async function(data) {
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
-
+/* ************************
+ * Constructs the drop-down classification list
+ ************************** */
+Util.buildClassificationDropdown = async function (req, res, next) {
+  let data 
+  let dropdown = "<select>"
+  data.rows.forEach((row) => {
+    dropdown += "<option>",
+  
+    dropdown += "</select>,"
+  })
+  list += "</ul>"
+  return dropdown
+}
 
 module.exports = Util
 

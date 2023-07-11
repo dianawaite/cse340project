@@ -1,6 +1,8 @@
 const utilities = require(".")
 const { body, validationResult } = require("express-validator")
 const validate = {}
+const accountModel = require("../models/account-model")
+
 
 
 /*  **********************************
@@ -25,7 +27,13 @@ validate.registationRules = () => {
       .trim()
       .isEmail()
       .normalizeEmail() // refer to validator.js docs
-      .withMessage("A valid email is required."),
+      .withMessage("A valid email is required.")
+      .custom(async (account_email) => {
+        const emailExists = await accountModel.checkExistingEmail(account_email)
+        if (emailExists) {
+            throw new Error("Email exists. Please log in or use different email")
+        }
+      }),
   
       // password is required and must be strong password
       body("account_password")
@@ -40,6 +48,55 @@ validate.registationRules = () => {
         .withMessage("Password does not meet requirements."),
     ]
   }
+
+  /*  **********************************
+ *  Login Data Validation Rules
+ * ********************************* */
+validate.loginRules = () => {
+    return [  
+      // valid email is required and cannot already exist in the DB
+      body("account_email")
+      .trim()
+      .isEmail()
+      .normalizeEmail() // refer to validator.js docs
+      .withMessage("A valid email is required.")
+      .custom(async (account_email) => {
+        const emailExists = await accountModel.checkExistingEmail(account_email)
+        if (emailExists) {
+            throw new Error("Email exists. Please log in or use different email")
+        }
+      }),
+  
+      // password is required and must be strong password
+      body("account_password")
+        .trim()
+        .isStrongPassword({
+          minLength: 12,
+          minLowercase: 1,
+          minUppercase: 1,
+          minNumbers: 1,
+          minSymbols: 1,
+        })
+        .withMessage("Password does not meet requirements."),
+    ]
+  }
+
+  /*  **********************************
+ *  Add Classification Data Validation Rules
+ * ********************************* */
+validate.addClassificationRules = () => {
+  return [
+    // firstname is required and must be string
+    body("classification_name")
+      .trim()
+      .isLength({ min: 1 })
+      .custom(value => !/\s/.test(value))
+      .custom(value => /^[a-z]*$/i.test(value))
+      .withMessage("Please provide a new classification with no spaces or special characters."), // on error this message is sent.
+
+  ]
+}
+
 
 
   /* ******************************

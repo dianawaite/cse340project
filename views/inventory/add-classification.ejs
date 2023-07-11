@@ -1,0 +1,17 @@
+<!-- Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<!-- Messages section-->
+<%- messages() %>
+
+<!-- add classification form -->
+ 
+<form id="add-classification" action="/inv/add-classification" method="post">
+    <label for="add-classification">Add Classification</label>
+    <input type="text" id="add_classification" name="add_classification" required pattern="[a-zA-Z]+">
+    <input type="submit">
+</form>
