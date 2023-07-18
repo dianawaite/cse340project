@@ -132,7 +132,7 @@ Util.buildClassificationDropdown = async function (req, res, next) {
  
   let dropdown = "<select name='classification_id'>"
   data.rows.forEach((row) => {
-    dropdown += '<option value="' + row['classification_id'] + '">' + row['classification_name'] + '</option>';
+    dropdown += '<option value=' + row['classification_id'] + '>' + row['classification_name'] + '</option>';
   })
   dropdown += "</select>"
   return dropdown
